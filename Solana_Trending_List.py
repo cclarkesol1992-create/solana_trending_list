@@ -183,10 +183,19 @@ def _is_valid_pubkey(s: str) -> bool:
     except Exception:
         return False
 
-DEEP_DEBUG = True
+ # Deep debug toggle: default OFF in production.
+# Set environment variable DEEP_DEBUG=1 to re-enable very verbose logging.
+DEEP_DEBUG = False
+try:
+    _env_dd = os.environ.get("DEEP_DEBUG")
+    if _env_dd is not None:
+        DEEP_DEBUG = bool(int(str(_env_dd).strip() or "0"))
+except Exception:
+    # If env parsing fails, keep the safe default (False)
+    DEEP_DEBUG = False
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG if DEEP_DEBUG else logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
     handlers=[
         logging.FileHandler("solana_trending.log"),
