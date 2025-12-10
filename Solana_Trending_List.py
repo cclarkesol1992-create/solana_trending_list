@@ -366,7 +366,7 @@ if 'DEEP_DEBUG' in globals() and DEEP_DEBUG:
         pass
 # Increase per-minute alert cap so live-buy posts are not suppressed during bursts.
 # Set to a higher value (or 0 to disable rate limiting) if you expect many buys.
-MAX_ALERTS_PER_MINUTE = 100  # live alert rate limit (per minute)
+MAX_ALERTS_PER_MINUTE = 5  # live alert rate limit (per minute)
 
 # --- Live buy separator (format-only; safe for manual tweaking) ---
 # This only controls the visual separator line used in LIVE BUY trending alerts.
