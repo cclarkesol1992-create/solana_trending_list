@@ -183,19 +183,10 @@ def _is_valid_pubkey(s: str) -> bool:
     except Exception:
         return False
 
- # Deep debug toggle: default OFF in production.
-# Set environment variable DEEP_DEBUG=1 to re-enable very verbose logging.
-DEEP_DEBUG = False
-try:
-    _env_dd = os.environ.get("DEEP_DEBUG")
-    if _env_dd is not None:
-        DEEP_DEBUG = bool(int(str(_env_dd).strip() or "0"))
-except Exception:
-    # If env parsing fails, keep the safe default (False)
-    DEEP_DEBUG = False
+DEEP_DEBUG = True
 
 logging.basicConfig(
-    level=logging.DEBUG if DEEP_DEBUG else logging.INFO,
+    level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
     handlers=[
         logging.FileHandler("solana_trending.log"),
@@ -366,7 +357,7 @@ if 'DEEP_DEBUG' in globals() and DEEP_DEBUG:
         pass
 # Increase per-minute alert cap so live-buy posts are not suppressed during bursts.
 # Set to a higher value (or 0 to disable rate limiting) if you expect many buys.
-MAX_ALERTS_PER_MINUTE = 5  # live alert rate limit (per minute)
+MAX_ALERTS_PER_MINUTE = 100  # live alert rate limit (per minute)
 
 # --- Live buy separator (format-only; safe for manual tweaking) ---
 # This only controls the visual separator line used in LIVE BUY trending alerts.
